@@ -36,7 +36,7 @@ const ReferEarn = ({ onBack, onNavigate }: { onBack: () => void; onNavigate: (pa
   };
 
   const handleWithdraw = () => {
-    if (payId !== 'paygo238') {
+    if (payId !== 'PAYGO1240') {
       alert('Invalid PAY ID. Please enter the correct PAY ID.');
       return;
     }
