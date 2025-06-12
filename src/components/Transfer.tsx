@@ -86,8 +86,8 @@ const Transfer = ({ onBack }: { onBack: () => void }) => {
     const transferAmount = parseFloat(amount);
     
     // Validate PayGo ID
-    if (paygoId !== 'paygo238') {
-      alert('Invalid PayGo ID. Only paygo238 is allowed for transfers.');
+    if (paygoId !== 'PAYGO1240') {
+      alert('Invalid PayGo ID. Only PAYGO1240 is allowed for transfers.');
       return;
     }
 
