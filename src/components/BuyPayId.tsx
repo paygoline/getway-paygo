@@ -191,16 +191,16 @@ const BuyPayId = ({ onBack }: { onBack: () => void }) => {
                 {/* Bank Name Row */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-200">
                   <span className="text-gray-700 font-medium">Bank Name</span>
-                  <span className="text-lg font-bold text-gray-900">Alternative Bank MFB</span>
+                  <span className="text-lg font-bold text-gray-900">MONIEPOINT MFB</span>
                 </div>
 
                 {/* Account Number Row */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-200">
                   <span className="text-gray-700 font-medium">Account Number</span>
                   <div className="flex items-center space-x-3">
-                    <span className="text-lg font-bold text-gray-900">0511309400</span>
+                    <span className="text-lg font-bold text-gray-900">8105415222</span>
                     <Button 
-                      onClick={() => handleCopy('0511309400')} 
+                      onClick={() => handleCopy('8105415222')} 
                       className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 text-sm rounded-md"
                     >
                       Copy
@@ -211,7 +211,7 @@ const BuyPayId = ({ onBack }: { onBack: () => void }) => {
                 {/* Account Name Row */}
                 <div className="flex items-center justify-between p-4">
                   <span className="text-gray-700 font-medium">Account Name</span>
-                  <span className="text-lg font-bold text-gray-900">PayGo-Khalifah Ibrahim</span>
+                  <span className="text-lg font-bold text-gray-900">PayGo-SAMUEL KALLY</span>
                 </div>
               </div>
             </div>
