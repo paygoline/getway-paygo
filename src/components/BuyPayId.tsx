@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { useAuth } from "@/hooks/use-auth"
+import { useAuth } from "../contexts/AuthContext"
 import { DollarSign } from "lucide-react"
 
 export default function PayIdPaymentPage() {
