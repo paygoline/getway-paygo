@@ -1,12 +1,13 @@
+
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useNavigate } from "react-router-dom"
 import { useAuth } from "@/hooks/use-auth"
 import { DollarSign } from "lucide-react"
 
 export default function PayIdPaymentPage() {
-  const router = useRouter()
+  const navigate = useNavigate()
   const { user } = useAuth()
   const [formData, setFormData] = useState<any>(null)
   const [copiedAmount, setCopiedAmount] = useState(false)
@@ -14,19 +15,19 @@ export default function PayIdPaymentPage() {
 
   useEffect(() => {
     if (!user) {
-      router.push("/login")
+      navigate("/login")
       return
     }
 
     // Get form data from localStorage
     const storedFormData = localStorage.getItem("paygo_pay_id_form")
     if (!storedFormData) {
-      router.push("/buy-pay-id")
+      navigate("/buy-pay-id")
       return
     }
 
     setFormData(JSON.parse(storedFormData))
-  }, [user, router])
+  }, [user, navigate])
 
   const copyToClipboard = (text: string, type: "amount" | "account") => {
     navigator.clipboard.writeText(text)
@@ -40,7 +41,7 @@ export default function PayIdPaymentPage() {
   }
 
   const handleConfirmPayment = () => {
-    router.push("/buy-pay-id/verifying")
+    navigate("/buy-pay-id/verifying")
   }
 
   if (!formData) {
@@ -51,7 +52,7 @@ export default function PayIdPaymentPage() {
     <main className="flex min-h-screen flex-col bg-white">
       <div className="bg-gray-300 p-4 flex justify-between items-center">
         <h1 className="text-black text-lg font-medium">Bank Transfer</h1>
-        <button onClick={() => router.push("/dashboard")} className="text-red-500 font-medium">
+        <button onClick={() => navigate("/dashboard")} className="text-red-500 font-medium">
           Cancel
         </button>
       </div>
