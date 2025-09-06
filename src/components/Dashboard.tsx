@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from '@/components/ui/carousel';
 import { useAuth } from '../contexts/AuthContext';
@@ -114,7 +114,7 @@ const Dashboard = () => {
   ];
 
   if (currentView === 'buy-pay-id') {
-    return <BuyPayId onBack={() => setCurrentView('dashboard')} />;
+    return <BuyPayId />;
   }
 
   if (currentView === 'transfer') {
@@ -172,7 +172,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-orange-100">
+    <div className="min-h-screen bg-gray-100">
       {/* Onboarding Popup */}
       {showOnboardingPopup && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
@@ -182,125 +182,129 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Sliding Banner */}
-      <div className="bg-white p-3 overflow-hidden border-b">
-        <div className="animate-slide-banner whitespace-nowrap text-red-500">
-          Dear user we're currently having issues with OPay bank kindly use another bank for your payment of pay Id
+      {/* Status Bar */}
+      <div className="bg-purple-600 text-white px-4 py-1 flex justify-between items-center text-sm">
+        <span>00:13</span>
+        <div className="flex items-center space-x-1">
+          <span>◀ WA Business</span>
+        </div>
+        <div className="flex items-center space-x-1">
+          <div className="flex space-x-1">
+            <div className="w-1 h-3 bg-white"></div>
+            <div className="w-1 h-3 bg-white"></div>
+            <div className="w-1 h-3 bg-white opacity-50"></div>
+          </div>
+          <span className="text-xs">LTE</span>
+          <span className="bg-yellow-400 text-black px-1 rounded text-xs">25%</span>
         </div>
       </div>
 
-      {/* Header */}
-      <div className="mx-2">
-        <div className="bg-purple-900 text-white p-4 rounded-b-3xl">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-              <span className="text-purple-600 font-bold text-lg">
-                {user?.name?.charAt(0).toUpperCase()}
-              </span>
+      {/* Main Content */}
+      <div className="p-4">
+        {/* Header Card */}
+        <div className="bg-gradient-to-br from-purple-600 to-purple-700 rounded-3xl p-6 text-white mb-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                <span className="text-purple-600 font-bold text-xl">U</span>
+              </div>
+              <div>
+                <h1 className="text-xl font-medium">Hi, Usman 👋</h1>
+                <p className="text-base opacity-90">Welcome back!</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-bold">Hi, {user?.name} 👋</h1>
-              <p className="text-sm opacity-90">Welcome back!</p>
+            <div className="bg-orange-500 w-8 h-8 rounded-full flex items-center justify-center">
+              <Bell className="w-5 h-5" />
             </div>
           </div>
-          <div className="flex items-center space-x-3">
-            <Button 
-              onClick={() => setCurrentView('transaction-history')}
-              className="bg-white/20 hover:bg-white/30 p-2 rounded-full"
-            >
-              <Bell className="w-6 h-6" />
-            </Button>
-            <Button 
-              onClick={handleLogout}
-              className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg text-sm"
-            >
-              Logout
-            </Button>
+
+          <div>
+            <p className="text-base mb-2">Your Balance</p>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-4xl font-bold">₦180,000.00</h2>
+              <Button
+                onClick={() => setBalanceVisible(!balanceVisible)}
+                className="bg-white/20 hover:bg-white/30 p-2 rounded-full"
+              >
+                <EyeOff className="w-6 h-6" />
+              </Button>
+            </div>
+            <p className="text-base mb-8">Weekly Rewards: ₦180,000.00</p>
+
+            <div className="flex space-x-4">
+              <Button 
+                onClick={() => setCurrentView('upgrade')}
+                className="flex-1 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full py-4 flex items-center justify-center space-x-3"
+              >
+                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 text-purple-600" />
+                </div>
+                <span className="text-lg">Upgrade</span>
+              </Button>
+              <Button 
+                onClick={() => setCurrentView('transfer')}
+                className="flex-1 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full py-4 flex items-center justify-center space-x-3"
+              >
+                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                  <ArrowUp className="w-5 h-5 text-purple-600" />
+                </div>
+                <span className="text-lg">Transfer</span>
+              </Button>
+            </div>
           </div>
         </div>
 
-        {/* Balance Card */}
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-          <p className="text-sm opacity-90 mb-2">Your Balance</p>
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-3xl font-bold">
-                {balanceVisible ? `₦${(user?.balance || 0).toLocaleString()}.00` : '₦***,***.00'}
-              </h2>
-              <p className="text-sm opacity-90">Weekly Rewards: ₦180,000.00</p>
-            </div>
-            <Button
-              onClick={() => setBalanceVisible(!balanceVisible)}
-              className="bg-white/20 hover:bg-white/30 p-2 rounded-full"
-            >
-              {balanceVisible ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-            </Button>
-          </div>
-
-          <div className="flex space-x-4 mt-6">
-            <Button 
-              onClick={() => setCurrentView('upgrade')}
-              className="flex-1 bg-white text-purple-600 hover:bg-gray-100 rounded-full py-3 flex items-center justify-center space-x-2"
-            >
-              <CheckCircle className="w-5 h-5" />
-              <span>Upgrade</span>
-            </Button>
-            <Button 
-              onClick={() => setCurrentView('transfer')}
-              className="flex-1 bg-white text-purple-600 hover:bg-gray-100 rounded-full py-3 flex items-center justify-center space-x-2"
-            >
-              <ArrowUp className="w-5 h-5" />
-              <span>Transfer</span>
-            </Button>
-          </div>
-        </div>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="p-6">
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        {/* Services Grid */}
+        <div className="grid grid-cols-4 gap-6 mb-8">
           {quickActions.map((action, index) => (
             <div key={index} className="text-center">
               <button 
                 onClick={action.action}
-                className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow mb-2 w-full"
+                className="w-16 h-16 rounded-2xl mb-3 flex items-center justify-center"
+                style={{
+                  backgroundColor: index === 0 ? '#9333ea' : // purple for Buy PAY ID
+                                  index === 1 ? '#374151' : // gray for Watch
+                                  index === 2 ? '#3b82f6' : // blue for Airtime
+                                  index === 3 ? '#dc2626' : // red for Data
+                                  index === 4 ? '#6b7280' : // gray for Support
+                                  index === 5 ? '#06b6d4' : // cyan for Group
+                                  index === 6 ? '#eab308' : // yellow for Earn More
+                                  '#6b7280' // gray for Profile
+                }}
               >
-                {action.icon}
+                {React.cloneElement(action.icon, { 
+                  className: "w-8 h-8 text-white" 
+                })}
               </button>
-              <p className="text-xs text-gray-600">{action.label}</p>
+              <p className="text-sm text-gray-700 font-medium">{action.label}</p>
             </div>
           ))}
         </div>
 
-        {/* Promotions Carousel */}
+        {/* Current Promotions */}
         <div>
-          <h3 className="text-lg font-bold text-gray-800 mb-4">Current Promotions</h3>
-          <Carousel 
-            className="w-full"
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            setApi={setApi}
-          >
-            <CarouselContent>
-              {promotions.map((promotion, index) => (
-                <CarouselItem key={index}>
-                  <div className="relative rounded-2xl overflow-hidden h-[240px]">
-                    <img 
-                      src={promotion.image} 
-                      alt={promotion.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="left-2" />
-            <CarouselNext className="right-2" />
-          </Carousel>
+          <h3 className="text-xl font-bold text-black mb-4">Current Promotions</h3>
+          <div className="relative rounded-2xl overflow-hidden">
+            <img 
+              src="/lovable-uploads/49822b7a-62ed-4146-a32c-55330b959b0b.png" 
+              alt="Transact & Win Promotion"
+              className="w-full h-[280px] object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-6">
+              <h2 className="text-white text-3xl font-bold mb-2">Transact & Win</h2>
+              <div className="w-16 h-1 bg-orange-400 mb-4"></div>
+              <p className="text-white text-base mb-2">Locations: Cheers Gold Crest Mall | Chrismar Hotel | Hot Spot Pub & Grill</p>
+              <p className="text-white text-sm mb-4">All customers who pay with PayGo in store will stand a chance to win great prizes.</p>
+              <p className="text-orange-400 text-lg font-semibold">Easter weekend special</p>
+            </div>
+            {/* Navigation arrows */}
+            <button className="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+              <ArrowUp className="w-5 h-5 text-white rotate-[-90deg]" />
+            </button>
+            <button className="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+              <ArrowUp className="w-5 h-5 text-white rotate-90" />
+            </button>
+          </div>
         </div>
       </div>
 
