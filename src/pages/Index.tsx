@@ -1,18 +1,31 @@
-
 import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import Login from '../components/Login';
 import Register from '../components/Register';
 import Welcome from '../components/Welcome';
 import Dashboard from '../components/Dashboard';
-import Onboarding from '../components/Onboarding';
+import LandingPage from '../components/LandingPage';
 
 const AppContent = () => {
   const { user, isWelcomeComplete } = useAuth();
+  const [showAuth, setShowAuth] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+
+  if (!user && !showAuth) {
+    return (
+      <LandingPage
+        onGetStarted={() => { setShowAuth(true); setIsLogin(false); }}
+        onSignIn={() => { setShowAuth(true); setIsLogin(true); }}
+      />
+    );
+  }
 
   if (!user) {
-    return <AuthFlow />;
+    return isLogin ? (
+      <Login onSwitchToRegister={() => setIsLogin(false)} />
+    ) : (
+      <Register onSwitchToLogin={() => setIsLogin(true)} />
+    );
   }
 
   if (!isWelcomeComplete) {
@@ -20,20 +33,6 @@ const AppContent = () => {
   }
 
   return <Dashboard />;
-};
-
-const AuthFlow = () => {
-  const [isLogin, setIsLogin] = useState(false);
-
-  return (
-    <>
-      {isLogin ? (
-        <Login onSwitchToRegister={() => setIsLogin(false)} />
-      ) : (
-        <Register onSwitchToLogin={() => setIsLogin(true)} />
-      )}
-    </>
-  );
 };
 
 const Index = () => {
